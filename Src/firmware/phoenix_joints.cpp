@@ -16,7 +16,6 @@ void PhoenixJoint_init(PhoenixJoint* j) {
 
   pinMode(j->pin_dirb, OUTPUT);
   analogWrite(j->pin_dirb, 0);
-  return;
 }
 
 /**

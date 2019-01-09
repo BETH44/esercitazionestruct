@@ -11,7 +11,7 @@
 static double kmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
   {0.33, -0.33, 0.57},
-  {0.33, -0.33, -0.57},  
+  {0.33, -0.33, -0.57},   //sbagliata
   {0.33, 0.66, 0}
 };
 
@@ -21,9 +21,9 @@ static double kmatrix[NUM_JOINTS][NUM_JOINTS] =
  **/
 static double ikmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
-  {-0.33, 0.33, -0.57},
-  {-0.33, -0.33, 0.57}, //SBAGLIATA
-  {-0.33, -0.66, 0}
+  {0.33, -0.33, 0.57},
+  {0.33, -0.33, -0.57},   
+  {0.33, 0.66, 0}
 };
 
 /**
@@ -35,7 +35,6 @@ void PhoenixDrive_init(PhoenixDrive* d, PhoenixJoint* joint_array) {
   d->vel_x_desiderata = 0;
   d->vel_y_desiderata = 0;
   d->joints = joint_array;
-  return;
 }
 
 /**
@@ -46,7 +45,6 @@ void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
   d->vel_x_desiderata = x;
   d->vel_y_desiderata = y;
   d->rot_desiderata = r;
-  return;
 }
 
 /**
@@ -54,11 +52,15 @@ void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
  * ogni Joint presente in d->joints 
  **/
 void PhoenixDrive_handle(PhoenixDrive* d) {
-  int a,b;
-  for(a=0;a<NUM_JOINTS;a++){
-    
+  double comp_vector[3] = {d->vel_x_desiderata, d->vel_y_desiderata, d->rot_desiderata};
+  double speed = 0;
+  for(int a=0;a<NUM_JOINTS;a++)
+  {
+    for(int b=0;b<NUM_JOINTS;b++)
+    {
+      speed+=kmatrix[a][b]*comp_vector[b];
+    }
   }
-  return;
 }
 
 /**
