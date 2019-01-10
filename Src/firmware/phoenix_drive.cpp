@@ -59,10 +59,7 @@ void PhoenixDrive_handle(PhoenixDrive* d) {
     for(int b=0;b<NUM_JOINTS;b++)
     {
       speed+=ikmatrix[a][b]*comp_vector[b];
-    }
-    for(int c=0;c<NUM_JOINTS;c++){
-       d->joints->velocita = speed;
-    }
+    } 
   }
 }
 
