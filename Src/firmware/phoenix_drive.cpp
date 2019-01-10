@@ -53,14 +53,16 @@ void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
  **/
 void PhoenixDrive_handle(PhoenixDrive* d) {
   double comp_vector[3] = {d->vel_x_desiderata, d->vel_y_desiderata, d->rot_desiderata};
-  double speed = 0;
+  int speed = 0;
   for(int a=0;a<NUM_JOINTS;a++)
   {
     for(int b=0;b<NUM_JOINTS;b++)
     {
       speed+=ikmatrix[a][b]*comp_vector[b];
     }
-    d->joints->velocita = speed;
+    for(int c=0;c<NUM_JOINTS;c++){
+       d->joints->velocita = speed;
+    }
   }
 }
 
