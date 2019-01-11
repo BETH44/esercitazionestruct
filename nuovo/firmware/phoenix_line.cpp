@@ -57,6 +57,26 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s) {
  * la funzione PhoenixLineHandler_reset
  */
 void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
+  for(int i=0;i<d->line_sensors;i++)
+  {
+    if(d->mask = 1){
+      i= i+1;
+    }
+    else
+    {
+      //PhoenixLineSensor_getStatus(d);
+      //if(PhoenixLineHandler_getStatus(d) = 1){
+        d->mask = 1;
+        d->escape_x = d->line_sensors->x;
+        d->escape_y = d->line_sensors->y;
+        d->escape_flag = 1;
+        //ESCAPE_TTL = d->escape_ttl;
+      //}
+    }
+    if(d->escape_ttl = 0){
+      //PhoenixLineHandler_reset(d);
+    }
+  }
   // Da completare...
   return;
 }
@@ -99,7 +119,7 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
   d->mask = 0;
   for(int i=0;i<NUM_LINE_SENSORS;i++)
   {
-    PhoenixLineSensor_reset();
+    //PhoenixLineSensor_reset(d);
   }
   return;
 }
