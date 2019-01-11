@@ -6,25 +6,24 @@
 
 /**
  * matrice cinematica robot a 3 assi
- * da velocita motori => forze su robot  //date le velocità mi calcola le direzioni 
- * metodo per mappare il campo o per usare gli eventuali encoder
+ * da velocita motori => forze su robot
  **/
 static double kmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
-  {-0.5, -0.5, 1},
-  {0.86, -0.86, 0},   
-  {1, 1, 1}
+  {0.0, 0.0, 0.0},
+  {0.0, 0.0, 0.0},
+  {0.0, 0.0, 0.0}
 };
 
 /**
  * matrice inversa cinematica robot a 3 assi
- * da forze su robot => velocita motori      //date la direzione mi calcola le velocità
+ * da forze su robot => velocita motori
  **/
 static double ikmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
-  {-0.33, 0.5, 0.33},
-  {-0.33, -0.5, 0.33},   
-  {0.66, 0, 0.33}
+  {0.0, 0.0, 0.0},
+  {0.0, 0.0, 0.0},
+  {0.0, 0.0, 0.0}
 };
 
 /**
@@ -33,9 +32,7 @@ static double ikmatrix[NUM_JOINTS][NUM_JOINTS] =
  * In oltre  imposta d->joints = joint_array
  **/
 void PhoenixDrive_init(PhoenixDrive* d, PhoenixJoint* joint_array) {
-  d->vel_x_desiderata = 0;
-  d->vel_y_desiderata = 0;
-  d->joints = joint_array;
+  return;
 }
 
 /**
@@ -43,9 +40,7 @@ void PhoenixDrive_init(PhoenixDrive* d, PhoenixJoint* joint_array) {
  * x, y e r
  */
 void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
-  d->vel_x_desiderata = x;
-  d->vel_y_desiderata = y;
-  d->rot_desiderata = r;
+  return;
 }
 
 /**
@@ -53,17 +48,7 @@ void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
  * ogni Joint presente in d->joints 
  **/
 void PhoenixDrive_handle(PhoenixDrive* d) {
-  double comp_vector[3] = {d->vel_x_desiderata, d->vel_y_desiderata, d->rot_desiderata};
-  for(int a=0;a<NUM_JOINTS;a++)
-  {
-    double speed=0;
-    for(int b=0;b<NUM_JOINTS;b++)
-    {
-      speed+=ikmatrix[a][b]*comp_vector[b];
-
-    } 
-    d->joints[a].velocita = speed;
-  }
+  return;
 }
 
 /**
@@ -71,7 +56,5 @@ void PhoenixDrive_handle(PhoenixDrive* d) {
  * e rilancia PhoenixDrive_handle
  **/
 void PhoenixDrive_reset(PhoenixDrive* d) {
-  d->vel_x_desiderata = 0;
-  d->vel_y_desiderata = 0;
-  PhoenixDrive_handle(d);
+
 }
