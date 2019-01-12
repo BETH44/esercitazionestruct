@@ -29,6 +29,7 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s) {
   d->escape_x = 0;
   d->escape_y = 0;
   d->escape_ttl = ESCAPE_TTL;
+  d->line_sensors = s;
   // Da completare...
   return;
 }
@@ -57,35 +58,43 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s) {
  * la funzione PhoenixLineHandler_reset
  */
 void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
-  for(int i=0;i<d->line_sensors;i++)
+  for(int a=0;a<d->line_sensors;a++){
+    PhoenixLineSensor_handle(d->line_sensors->adc_addr);
+  }
+  for(int b=0;b<d->line_sensors->adc_idx;b++)
   {
-    if(d->mask = 1){
-      i= i+1;
-    }
-    else
+    if(mask_read(&d->mask, d->line_sensors->adc_idx) == 1)
     {
-      //PhoenixLineSensor_getStatus(d);
-      //if(PhoenixLineHandler_getStatus(d) = 1){
-        d->mask = 1;
-        d->escape_x = d->line_sensors->x;
-        d->escape_y = d->line_sensors->y;
-        d->escape_flag = 1;
-        //ESCAPE_TTL = d->escape_ttl;
-      //}
+      b=b+1;
     }
-    if(d->escape_ttl = 0){
-      //PhoenixLineHandler_reset(d);
+    else if(mask_read(&d->mask, d->line_sensors->adc_idx) == 0)
+    {
+      if(PhoenixLineSensor_getStatus(d->line_sensors->adc_idx) == 1)
+      {
+        mask_setBit(&d->mask, d->line_sensors->adc_idx = 1); //non sono sicuro 
+        d->escape_x = d->escape_x + d->line_sensors->x;
+        d->escape_y = d->escape_y + d->line_sensors->y;
+        d->escape_flag = 1;
+        d->escape_ttl = ESCAPE_TTL;
+      }
     }
   }
-  // Da completare...
-  return;
+  if(d->escape_flag == 1)
+  {
+    d->escape_ttl = d->escape_ttl - 1;
+  }
+  if(d->escape_ttl == 0)
+  {
+    PhoenixLineHandler_reset(d);
+  }
 }
+
+
 
 /**
  * restituisce il valore di escape_flag
  **/
 uint8_t PhoenixLineHandler_getStatus(PhoenixLineHandler* d) {
-  // Da completare...
   return d->escape_flag;
 }
 
@@ -93,7 +102,6 @@ uint8_t PhoenixLineHandler_getStatus(PhoenixLineHandler* d) {
  * restituisce il valore di escape_x
  **/
 double PhoenixLineHandler_getEscapeX(PhoenixLineHandler* d) {
-  // Da completare...
   return d->escape_x;
 }
 
@@ -101,7 +109,6 @@ double PhoenixLineHandler_getEscapeX(PhoenixLineHandler* d) {
  * restituisce il valore di escape_x (hai sbagliato a scrivere è "y")
  **/
 double PhoenixLineHandler_getEscapeY(PhoenixLineHandler* d) {
-  // Da completare...
   return d->escape_y;
 }
 
@@ -112,14 +119,14 @@ double PhoenixLineHandler_getEscapeY(PhoenixLineHandler* d) {
  * PhoenixLineSensor_reset
  **/
 void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
-  // Da completare...
   d->escape_flag = 0;
   d->escape_x = 0;
   d->escape_y = 0;
-  d->mask = 0;
+  d->mask = 0;          
+  //mask_clear(&d->mask, 0);
   for(int i=0;i<NUM_LINE_SENSORS;i++)
   {
-    //PhoenixLineSensor_reset(d);
+    PhoenixLineSensor_reset(d->line_sensors);
   }
   return;
 }
