@@ -123,9 +123,10 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
   d->escape_x = 0;
   d->escape_y = 0;
   d->mask = 0;          
-  //mask_clear(&d->mask, 0);
+  //mask_clear(&d->mask, 0);  //non riesco ad utilizzarla perchè mi dice che non è dichiarata
   for(int i=0;i<NUM_LINE_SENSORS;i++)
   {
+    //mask_clear(&d->mask, d->line_sensors[i].adc_idx == 0); PROVA
     PhoenixLineSensor_reset(d->line_sensors);
   }
   return;
