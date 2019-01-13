@@ -72,8 +72,8 @@ void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
       if(PhoenixLineSensor_getStatus(d->line_sensors->adc_idx) == 1)
       {
         mask_setBit(&d->mask, d->line_sensors->adc_idx = 1); //non sono sicuro 
-        d->escape_x = d->escape_x + d->line_sensors->x;
-        d->escape_y = d->escape_y + d->line_sensors->y;
+        d->escape_x += d->escape_x + d->line_sensors->x;
+        d->escape_y += d->escape_y + d->line_sensors->y;
         d->escape_flag = 1;
         d->escape_ttl = ESCAPE_TTL;
       }
