@@ -58,10 +58,10 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s) {
  * la funzione PhoenixLineHandler_reset
  */
 void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
-  for(int a=0;a<d->line_sensors;a++){
-    PhoenixLineSensor_handle(d->line_sensors->adc_addr);
+  for(int a=-1;a<d->line_sensors;a++){
+    PhoenixLineSensor_handle(d->line_sensors[a].adc_addr);
   }
-  for(int b=0;b<d->line_sensors->adc_idx;b++)
+  for(int b=-1;b<d->line_sensors[b].adc_idx;b++)
   {
     if(mask_read(&d->mask, d->line_sensors->adc_idx) == 1)
     {
@@ -71,9 +71,9 @@ void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
     {
       if(PhoenixLineSensor_getStatus(d->line_sensors->adc_idx) == 1)
       {
-        mask_setBit(&d->mask, d->line_sensors->adc_idx = 1); //non sono sicuro 
-        d->escape_x += d->escape_x + d->line_sensors->x;
-        d->escape_y += d->escape_y + d->line_sensors->y;
+        mask_setBit(&d->mask, d->line_sensors[b].adc_idx = 1); //non sono sicuro 
+        d->escape_x += d->escape_x + d->line_sensors[b].x;  //di questo un po di meno
+        d->escape_y += d->escape_y + d->line_sensors[b].y;  //di questo anche ahah
         d->escape_flag = 1;
         d->escape_ttl = ESCAPE_TTL;
       }
