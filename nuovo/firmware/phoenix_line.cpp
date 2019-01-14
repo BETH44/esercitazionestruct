@@ -58,22 +58,18 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s) {
  * la funzione PhoenixLineHandler_reset
  */
 void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
-  for(int a=-1;a<d->line_sensors;a++){
-    PhoenixLineSensor_handle(d->line_sensors[a].adc_addr);
+  for(int a=0;a<NUM_LINE_SENSORS;a++){
+    PhoenixLineSensor_handle(&d->line_sensors[a]);
   }
-  for(int b=-1;b<d->line_sensors[b].adc_idx;b++)
+  for(int b=0;b<NUM_LINE_SENSORS;b++)
   {
-    if(mask_read(&d->mask, d->line_sensors->adc_idx) == 1)
+    if(mask_read(&d->mask,b) == 0)
     {
-      b=b+1;
-    }
-    else if(mask_read(&d->mask, d->line_sensors->adc_idx) == 0)
-    {
-      if(PhoenixLineSensor_getStatus(d->line_sensors->adc_idx) == 1)
+      if(PhoenixLineSensor_getStatus(&d->line_sensors[b]) == 1)
       {
-        mask_setBit(&d->mask, d->line_sensors[b].adc_idx = 1); //non sono sicuro 
-        d->escape_x += d->escape_x + d->line_sensors[b].x;  //di questo un po di meno
-        d->escape_y += d->escape_y + d->line_sensors[b].y;  //di questo anche ahah
+        mask_setBit(&d->mask, b); 
+        d->escape_x = d->escape_x - d->line_sensors[b].x;  
+        d->escape_y = d->escape_y - d->line_sensors[b].y;  
         d->escape_flag = 1;
         d->escape_ttl = ESCAPE_TTL;
       }
@@ -123,11 +119,10 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
   d->escape_x = 0;
   d->escape_y = 0;
   d->mask = 0;          
-  //mask_clear(&d->mask, 0);  //non riesco ad utilizzarla perchè mi dice che non è dichiarata
   for(int i=0;i<NUM_LINE_SENSORS;i++)
   {
-    //mask_clear(&d->mask, d->line_sensors[i].adc_idx == 0); PROVA
-    PhoenixLineSensor_reset(d->line_sensors);
+    mask_clear(&d->mask, i); PROVA
+    PhoenixLineSensor_reset(&d->line_sensors[i]);
   }
   return;
 }
