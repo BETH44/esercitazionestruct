@@ -121,7 +121,7 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
   d->mask = 0;          
   for(int i=0;i<NUM_LINE_SENSORS;i++)
   {
-    mask_clear(&d->mask, i); PROVA
+    mask_clear(&d->mask, i); 
     PhoenixLineSensor_reset(&d->line_sensors[i]);
   }
   return;
